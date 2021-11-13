@@ -1,4 +1,3 @@
-import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useEffect } from 'react';
 import { useAuth } from 'use-auth0';
@@ -9,6 +8,7 @@ const useStyles = makeStyles(() => ({
     height: '100vh',
   },
 }));
+
 const Auth0CallbackPage = () => {
   const { handleAuthentication } = useAuth();
   useEffect(() => {
@@ -16,11 +16,7 @@ const Auth0CallbackPage = () => {
   }, []);
   const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      <Typography>Hi there</Typography>
-    </div>
-  );
+  return <div className={classes.root}>Auth0 Callback</div>;
 };
 
 export default Auth0CallbackPage;
