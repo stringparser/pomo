@@ -1,4 +1,3 @@
-import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -9,11 +8,13 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import MenuIcon from '@material-ui/icons/Menu';
+import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import MenuIcon from '@material-ui/icons/Menu';
+import React from 'react';
+
 import { User } from './User';
 const drawerWidth = 240;
 
@@ -44,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
-      backgroundColor: theme.palette.primary.main
+      backgroundColor: theme.palette.primary.main,
     },
     content: {
       flexGrow: 1,
@@ -80,7 +81,9 @@ export const Layout: React.FC<LayoutProps> = (props) => {
       <List>
         {['Info'].map((text) => (
           <ListItem button key={text} className={classes.menuItem}>
-            <ListItemIcon className={classes.menuItem}><DashboardIcon /></ListItemIcon>
+            <ListItemIcon className={classes.menuItem}>
+              <DashboardIcon />
+            </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
@@ -103,9 +106,9 @@ export const Layout: React.FC<LayoutProps> = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Nitro 🚀
+            pomo
           </Typography>
-          <User/>
+          <User />
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
@@ -145,4 +148,4 @@ export const Layout: React.FC<LayoutProps> = (props) => {
       </main>
     </div>
   );
-}
+};
