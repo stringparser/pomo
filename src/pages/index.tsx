@@ -1,12 +1,9 @@
-import { Box } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Head from 'next/head';
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 
 import { Layout } from '@/components/Layout';
-import TasksList from '@/features/task/components/TasksList';
-import TimerTask from '@/features/task/components/TimerTask';
-import { usePomoTask } from '@/hooks/usePomoTask';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -27,18 +24,6 @@ const useStyles = makeStyles(() => ({
 const Index: React.FC = () => {
   const classes = useStyles();
 
-  const pomo = usePomoTask();
-  const [tasks, setTasks] = useState(pomo.getAllTasks());
-  const [changeCount, setChangeCount] = useState(0);
-
-  const handleUpdateTasks = useCallback(() => {
-    setChangeCount((value) => value + 1);
-  }, []);
-
-  useEffect(() => {
-    setTasks(pomo.getAllTasks());
-  }, [changeCount]);
-
   return (
     <Layout>
       <div className={classes.root}>
@@ -46,10 +31,9 @@ const Index: React.FC = () => {
           <title>pomo</title>
         </Head>
         <div className={classes.strip}>
-          <TasksList data={tasks} />
-          <Box className={classes.taskButton}>
-            <TimerTask onChange={handleUpdateTasks} />
-          </Box>
+          <Typography variant="body1" color="primary">
+            Nada que ver por aquí
+          </Typography>
         </div>
       </div>
     </Layout>
