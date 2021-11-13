@@ -55,16 +55,17 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface LayoutProps {
+export type LayoutProps = {
+  title: string;
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
    */
   container?: Element;
-}
+};
 
 export const Layout: React.FC<LayoutProps> = (props) => {
-  const { container } = props;
+  const { title, container } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -105,7 +106,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            pomo
+            {title}
           </Typography>
         </Toolbar>
       </AppBar>

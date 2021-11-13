@@ -40,7 +40,7 @@ const Index: React.FC = () => {
   }, [changeCount]);
 
   return (
-    <Layout>
+    <Layout title="Lista de actividades">
       <div className={classes.root}>
         <Head>
           <title>pomo</title>
