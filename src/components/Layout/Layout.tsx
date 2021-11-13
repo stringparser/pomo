@@ -15,7 +15,6 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import MenuIcon from '@material-ui/icons/Menu';
 import React from 'react';
 
-import { User } from './User';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -108,7 +107,6 @@ export const Layout: React.FC<LayoutProps> = (props) => {
           <Typography variant="h6" noWrap>
             pomo
           </Typography>
-          <User />
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">

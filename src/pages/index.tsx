@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Head from 'next/head';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Layout } from '@/components/Layout';
+import { Layout } from '@/components/Layout/Layout';
 import TasksList from '@/features/task/components/TasksList';
 import TimerTask from '@/features/task/components/TimerTask';
 import { usePomoTask } from '@/hooks/usePomoTask';
