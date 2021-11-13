@@ -21,7 +21,7 @@ class MyApp extends App {
 
   render() {
     const { Component, pageProps, router } = this.props;
-    console.log(auth0_domain);
+
     return (
       <ThemeProvider theme={theme}>
         <AuthProvider

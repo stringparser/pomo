@@ -16,8 +16,6 @@ const TasksList: React.FC<TimerTaskProps> = ({ data }) => {
     );
   }
 
-  console.log('data', data);
-
   return (
     <Box flexDirection="column" justifyContent="center">
       {data.map(({ label, start, end }) => {
