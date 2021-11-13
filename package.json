@@ -43,7 +43,7 @@
     "webpack": "5.38.1"
   },
   "scripts": {
-    "dev": "vercel dev --listen 8080",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start"
   }
