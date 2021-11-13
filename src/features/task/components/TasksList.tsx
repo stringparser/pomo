@@ -11,7 +11,9 @@ const TasksList: React.FC<TimerTaskProps> = ({ data }) => {
   if (data == null || data.length === 0) {
     return (
       <Box display="flex" alignItems="center" flexDirection="row">
-        <Typography variant="body1">no tasks yet</Typography>
+        <Typography variant="body1" color="primary">
+          No hay tareas aún.
+        </Typography>
       </Box>
     );
   }

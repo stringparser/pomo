@@ -10,7 +10,7 @@ export type TimerTaskButtonProps = {
   onChange?: () => void;
 };
 
-const TimerTask: React.FC<TimerTaskButtonProps> = ({ label = 'test', onChange = noop }) => {
+const TimerTask: React.FC<TimerTaskButtonProps> = ({ label, onChange = noop }) => {
   const pomo = usePomoTask();
 
   const [task, setTask] = useState(label ? pomo.getTask(label) : undefined);
@@ -18,6 +18,11 @@ const TimerTask: React.FC<TimerTaskButtonProps> = ({ label = 'test', onChange = 
   const [taskLabel, setTaskLabel] = useState(label);
 
   const handleStartTask = useCallback(() => {
+    if (!taskLabel) {
+      alert('Necesitamos un nombre antes de empezar');
+      return;
+    }
+
     const value: TimerItem = { label: taskLabel, start: Date.now() };
 
     setTask(value);
@@ -38,7 +43,7 @@ const TimerTask: React.FC<TimerTaskButtonProps> = ({ label = 'test', onChange = 
     pomo.setTask(value);
 
     onChange();
-  }, [task]);
+  }, [task, onChange]);
 
   const handleContinueTask = useCallback(() => {
     setIsIdle(false);
@@ -56,9 +61,10 @@ const TimerTask: React.FC<TimerTaskButtonProps> = ({ label = 'test', onChange = 
       <FormControl size="medium">
         <OutlinedInput
           value={taskLabel}
+          placeholder="nombre"
           endAdornment={
             <Button variant="outlined" onClick={task ? handleContinueTask : handleStartTask}>
-              {task ? 'continue' : 'start'}
+              {task ? 'continuar' : 'empezar'}
             </Button>
           }
           onChange={handleTaskLabelChange}
@@ -69,7 +75,7 @@ const TimerTask: React.FC<TimerTaskButtonProps> = ({ label = 'test', onChange = 
 
   return (
     <Button variant="contained" onClick={handleStopTask}>
-      {`stop ${task.label}`}
+      {`parar de ${task.label}`}
     </Button>
   );
 };
