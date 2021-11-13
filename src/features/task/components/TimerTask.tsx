@@ -34,7 +34,7 @@ const TimerTask: React.FC<TimerTaskButtonProps> = ({ label = 'test', onChange = 
     const value: TimerItem = { ...task, end: Date.now() };
 
     setTask(value);
-    setIsIdle(false);
+    setIsIdle(true);
     pomo.setTask(value);
 
     onChange();
