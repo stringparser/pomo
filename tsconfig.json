@@ -22,14 +22,8 @@
     "alwaysStrict": true,
     "noUnusedParameters": true,
     "paths": {
-      "components/*": [
-        "components/*"
-      ],
-      "styles/*": [
-        "styles/*"
-      ],
-      "utils/*": [
-        "utils/*"
+      "@/*": [
+        "src/*"
       ]
     },
     "skipLibCheck": true,
@@ -45,7 +39,6 @@
   ],
   "include": [
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
+    "src"
   ]
 }
