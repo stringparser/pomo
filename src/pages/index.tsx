@@ -2,7 +2,7 @@ import { Box, Paper, Tab, Tabs, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ListIcon from '@material-ui/icons/List';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { Layout } from '@/components/Layout/Layout';
 import TasksListForm from '@/features/task/components/TasksListForm';
@@ -42,7 +42,7 @@ const Index: React.FC = () => {
     setTasks(pomo.getAllTasks());
   }, []);
 
-  const handleTabIndexChange = useCallback((ev: React.ChangeEvent<any>, value: number) => {
+  const handleTabIndexChange = useCallback((_ev: React.ChangeEvent<any>, value: number) => {
     setTabIndex(value);
   }, []);
 
