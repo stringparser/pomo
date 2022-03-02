@@ -4,8 +4,8 @@ import Head from 'next/head';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { Layout } from '@/components/Layout/Layout';
+import AddTimeForm from '@/features/task/components/AddTimeForm';
 import TasksList from '@/features/task/components/TasksList';
-import TimerTask from '@/features/task/components/TimerTask';
 import { usePomoTask } from '@/hooks/usePomoTask';
 import { TimerItem } from '@/models/Time';
 
@@ -17,8 +17,8 @@ const useStyles = makeStyles(() => ({
   },
   strip: {
     height: '100%',
-    marginTop: 30,
-    marginBottom: 30,
+    margin: '0 auto',
+    maxWidth: '720px',
   },
   taskButton: {
     marginTop: 20,
@@ -51,14 +51,14 @@ const Index: React.FC = () => {
   }, []);
 
   return (
-    <Layout title="Lista de actividades">
+    <Layout title="Diario">
       <div className={classes.root}>
         <Head>
           <title>pomo</title>
         </Head>
         <div className={classes.strip}>
           <Box className={classes.taskButton}>
-            <TimerTask onChange={handleUpdateTasks} />
+            <AddTimeForm onChange={handleUpdateTasks} />
           </Box>
           <Box height={20} />
           <TasksList data={tasks} onStart={handleStart} onStop={handleStop} />
