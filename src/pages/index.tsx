@@ -1,13 +1,19 @@
-import { Box } from '@material-ui/core';
+import { Box, Paper, Tab, Tabs, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Head from 'next/head';
+import ListIcon from '@material-ui/icons/List';
+import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { Layout } from '@/components/Layout/Layout';
-import AddTimeForm from '@/features/task/components/AddTimeForm';
-import TasksList from '@/features/task/components/TasksList';
+import TasksListForm from '@/features/task/components/TasksListForm';
+import TasksTopicsView from '@/features/task/components/TaskTopicsView';
 import { usePomoTask } from '@/hooks/usePomoTask';
 import { TimerItem } from '@/models/Time';
+
+enum TabViewIndex {
+  list = 0,
+  topics = 1,
+}
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -30,38 +36,69 @@ const Index: React.FC = () => {
 
   const pomo = usePomoTask();
   const [tasks, setTasks] = useState(pomo.getAllTasks());
-  const [changeCount, setChangeCount] = useState(0);
+  const [tabIndex, setTabIndex] = useState<number>(0);
 
   const handleUpdateTasks = useCallback(() => {
-    setChangeCount((value) => value + 1);
+    setTasks(pomo.getAllTasks());
   }, []);
 
-  useEffect(() => {
-    setTasks(pomo.getAllTasks());
-  }, [changeCount]);
+  const handleTabIndexChange = useCallback((ev: React.ChangeEvent<any>, value: number) => {
+    setTabIndex(value);
+  }, []);
 
   const handleStop = useCallback((el: TimerItem) => {
     pomo.stopTask(el);
     handleUpdateTasks();
   }, []);
 
-  const handleStart = useCallback((el: TimerItem) => {
+  const handleStart = useCallback((el: Partial<TimerItem>) => {
+    const last = pomo.getAllTasks()[0];
+
+    if (!last.end) {
+      pomo.stopTask(last);
+    }
+
+    console.log('last', last);
+
     pomo.startTask(el);
+
     handleUpdateTasks();
+  }, []);
+
+  const handleSelectTopic = useCallback(({ description }: TimerItem) => {
+    handleStart({ description });
+    setTabIndex(0);
   }, []);
 
   return (
     <Layout title="Diario">
       <div className={classes.root}>
-        <Head>
-          <title>pomo</title>
-        </Head>
         <div className={classes.strip}>
-          <Box className={classes.taskButton}>
-            <AddTimeForm onChange={handleUpdateTasks} />
-          </Box>
+          <Paper square>
+            <Tabs
+              value={tabIndex}
+              onChange={handleTabIndexChange}
+              variant="fullWidth"
+              indicatorColor="primary"
+              textColor="primary"
+              aria-label="icon tabs example"
+            >
+              <Tab icon={<ListIcon />} aria-label="list" />
+              <Tab icon={<ViewModuleIcon />} aria-label="icons" />
+            </Tabs>
+          </Paper>
           <Box height={20} />
-          <TasksList data={tasks} onStart={handleStart} onStop={handleStop} />
+          {tabIndex === TabViewIndex.list && (
+            <TasksListForm items={tasks} onStop={handleStop} onStart={handleStart} onChange={handleUpdateTasks} />
+          )}
+
+          {tabIndex === TabViewIndex.topics && <TasksTopicsView items={tasks} onSelect={handleSelectTopic} />}
+
+          {tabIndex > TabViewIndex.topics && (
+            <Typography variant="body1" color="primary">
+              tab {tabIndex}
+            </Typography>
+          )}
         </div>
       </div>
     </Layout>

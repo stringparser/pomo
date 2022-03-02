@@ -52,6 +52,6 @@ export const getAllTasks = (): TimerItem[] => {
       return item == null ? acc : acc.concat(item);
     }, result)
     .sort((a, b) => {
-      return a.start && b.start ? a.start - b.start : 0;
+      return a.start && b.start ? b.start - a.start : 0;
     });
 };
