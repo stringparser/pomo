@@ -13,7 +13,6 @@ const TimerTask: React.FC<TimerTaskButtonProps> = ({ label, onChange = noop }) =
   const pomo = usePomoTask();
 
   const [task, setTask] = useState(label ? pomo.getTask(label) : undefined);
-  const [isIdle, setIsIdle] = useState(true);
   const [description, setTaskDescription] = useState(label);
 
   const handleStartTask = useCallback(() => {
@@ -26,53 +25,27 @@ const TimerTask: React.FC<TimerTaskButtonProps> = ({ label, onChange = noop }) =
     setTask(value);
 
     onChange();
-  }, [task, onChange]);
+  }, [task, description, onChange]);
 
-  const handleStopTask = useCallback(() => {
-    if (task == null) {
-      return;
-    }
-
-    const value = pomo.stopTask(task);
-
-    setTask(value);
-    setIsIdle(true);
-
-    onChange();
-  }, [task, onChange]);
-
-  const handleContinueTask = useCallback(() => {
-    setIsIdle(false);
-  }, []);
-
-  const handleTaskLabelChange = useCallback((ev: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const handleTaskDescriptionChange = useCallback((ev: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { value } = ev.currentTarget;
 
-    setTask(pomo.getTask(value));
     setTaskDescription(value);
   }, []);
 
-  if (task == null || isIdle) {
-    return (
-      <FormControl size="medium">
-        <OutlinedInput
-          value={description}
-          placeholder="descripción"
-          endAdornment={
-            <Button variant="outlined" onClick={task ? handleContinueTask : handleStartTask}>
-              {task ? 'continuar' : 'empezar'}
-            </Button>
-          }
-          onChange={handleTaskLabelChange}
-        />
-      </FormControl>
-    );
-  }
-
   return (
-    <Button variant="contained" onClick={handleStopTask}>
-      {`parar`}
-    </Button>
+    <FormControl size="medium">
+      <OutlinedInput
+        value={description}
+        placeholder="descripción"
+        endAdornment={
+          <Button variant="outlined" onClick={handleStartTask}>
+            añadir
+          </Button>
+        }
+        onChange={handleTaskDescriptionChange}
+      />
+    </FormControl>
   );
 };
 

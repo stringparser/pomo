@@ -46,8 +46,12 @@ export const getAllTasks = (): TimerItem[] => {
     return result;
   }
 
-  return Object.keys(window.localStorage).reduce((acc, key) => {
-    const item = /^task_/.test(key) ? storage.get<TimerItem>(key) : undefined;
-    return item == null ? acc : acc.concat(item);
-  }, result);
+  return Object.keys(window.localStorage)
+    .reduce((acc, key) => {
+      const item = /^task_/.test(key) ? storage.get<TimerItem>(key) : undefined;
+      return item == null ? acc : acc.concat(item);
+    }, result)
+    .sort((a, b) => {
+      return a.start && b.start ? a.start - b.start : 0;
+    });
 };
