@@ -1,6 +1,7 @@
 export type TimerItem = {
-  label: string;
+  id: string;
 } & Partial<{
   end: number;
   start: number;
+  description: string;
 }>;
