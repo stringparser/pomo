@@ -1,7 +1,16 @@
 import { Box, Chip } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 
 import { TimerItem } from '@/models/Time';
+
+const useStyles = makeStyles({
+  chip: {
+    marginTop: '1rem',
+    marginLeft: '0.5rem',
+    flexBasis: '15%',
+  },
+});
 
 export type TasksTopicsViewProps = {
   items: TimerItem[];
@@ -9,6 +18,8 @@ export type TasksTopicsViewProps = {
 };
 
 const TasksTopicsView: React.FC<TasksTopicsViewProps> = ({ items, onSelect }) => {
+  const classes = useStyles();
+
   const topics = items.reduce((acc: Record<string, TimerItem[]>, el) => {
     const topic = el.description;
 
@@ -22,13 +33,22 @@ const TasksTopicsView: React.FC<TasksTopicsViewProps> = ({ items, onSelect }) =>
   }, {});
 
   return (
-    <Box display="flex" alignItems="center" justifyContent="space-between">
+    <Box display="flex" flexWrap="wrap" alignItems="center" flexBasis="10%">
       {Object.entries(topics).map(([key, el]) => {
         const count = el.length;
         const label = count > 1 ? `${key} (${count})` : key;
         const handleSelect = () => onSelect(el[0]);
 
-        return <Chip key={key} label={label} clickable color="primary" onClick={handleSelect} data-topic={key}></Chip>;
+        return (
+          <Chip
+            key={key}
+            label={label}
+            color="primary"
+            clickable
+            className={classes.chip}
+            onClick={handleSelect}
+          ></Chip>
+        );
       })}
     </Box>
   );
