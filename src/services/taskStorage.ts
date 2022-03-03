@@ -21,12 +21,13 @@ export const setTask = <T extends TimerItem = TimerItem>(value: T) => {
 export const startTask = <T extends Partial<TimerItem> = Partial<TimerItem>>({ id, end, ...data }: T) => {
   const last = getAllTasks()[0];
   const isSameTask = last && last.description === data.description;
+  const canExtendLast = isSameTask && last && last.end && Date.now() - last.end < 60 * 1e3;
 
   if (!isSameTask && last && !last.end) {
     stopTask(last);
   }
 
-  const task = isSameTask ? { ...last, ...data, end: undefined } : { ...data, id: getTaskId(), start: Date.now() };
+  const task = canExtendLast ? { ...last, ...data, end: undefined } : { ...data, id: getTaskId(), start: Date.now() };
 
   setTask(task);
 
