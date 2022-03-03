@@ -52,12 +52,6 @@ const Index: React.FC = () => {
   }, []);
 
   const handleStart = useCallback((el: Partial<TimerItem>) => {
-    const last = pomo.getAllTasks()[0];
-
-    if (!last.end) {
-      pomo.stopTask(last);
-    }
-
     pomo.startTask(el);
 
     handleUpdateTasks();
