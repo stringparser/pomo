@@ -1,6 +1,8 @@
 import { TimerItem } from '@/models/Time';
 import { storage } from '@/services/storage';
 
+export const ONE_MINUTE_MS = 60 * 1e3;
+
 export const getTaskId = (label = '') => {
   if (/^task_/.test(label)) {
     return label;
@@ -21,7 +23,7 @@ export const setTask = <T extends TimerItem = TimerItem>(value: T) => {
 export const startTask = <T extends Partial<TimerItem> = Partial<TimerItem>>({ id, end, ...data }: T) => {
   const last = getAllTasks()[0];
   const isSameTask = last && last.description === data.description;
-  const canExtendLast = isSameTask && last && last.end && Date.now() - last.end < 60 * 1e6;
+  const canExtendLast = isSameTask && last && last.end && Date.now() - last.end < ONE_MINUTE_MS;
 
   if (!isSameTask && last && !last.end) {
     stopTask(last);
@@ -35,7 +37,7 @@ export const startTask = <T extends Partial<TimerItem> = Partial<TimerItem>>({ i
 };
 
 export const stopTask = <T extends TimerItem = TimerItem>(data: T) => {
-  const task = { start: Date.now() - 60 * 1e6, ...data, end: Date.now() };
+  const task = { start: Date.now() - ONE_MINUTE_MS, ...data, end: Date.now() };
   setTask(task);
   return task;
 };
