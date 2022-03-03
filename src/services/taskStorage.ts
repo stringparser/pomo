@@ -26,9 +26,10 @@ export const startTask = <T extends Partial<TimerItem> = Partial<TimerItem>>({ i
     stopTask(last);
   }
 
-  const task = end
-    ? { ...data, id: id && isSameTask ? id : getTaskId(), start: Date.now() }
-    : { ...data, id: id || getTaskId(), start: Date.now() };
+  const task =
+    data.start && isSameTask
+      ? { ...data, id: id || getTaskId() }
+      : { ...data, id: id || getTaskId(), start: Date.now() };
 
   setTask(task);
 
