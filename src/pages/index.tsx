@@ -58,8 +58,6 @@ const Index: React.FC = () => {
       pomo.stopTask(last);
     }
 
-    console.log('last', last);
-
     pomo.startTask(el);
 
     handleUpdateTasks();
