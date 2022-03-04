@@ -1,10 +1,12 @@
 import { Box, Paper, Tab, Tabs, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ListIcon from '@material-ui/icons/List';
+import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import React, { useCallback, useState } from 'react';
 
 import { Layout } from '@/components/Layout/Layout';
+import DataSyncCSV from '@/features/data/DataSyncCSV';
 import TasksListForm from '@/features/task/components/TasksListForm';
 import TasksTopicsView from '@/features/task/components/TaskTopicsView';
 import { usePomoTask } from '@/hooks/usePomoTask';
@@ -13,6 +15,7 @@ import { TimerItem } from '@/models/Time';
 enum TabViewIndex {
   list = 0,
   topics = 1,
+  dataSync = 2,
 }
 
 const useStyles = makeStyles(() => ({
@@ -77,6 +80,7 @@ const Index: React.FC = () => {
             >
               <Tab icon={<ListIcon />} aria-label="list" />
               <Tab icon={<ViewModuleIcon />} aria-label="icons" />
+              <Tab icon={<SyncAltIcon />} aria-label="sync" />
             </Tabs>
           </Paper>
           <Box height={20} />
@@ -86,7 +90,9 @@ const Index: React.FC = () => {
 
           {tabIndex === TabViewIndex.topics && <TasksTopicsView items={tasks} onSelect={handleSelectTopic} />}
 
-          {tabIndex > TabViewIndex.topics && (
+          {tabIndex === TabViewIndex.dataSync && <DataSyncCSV />}
+
+          {tabIndex > TabViewIndex.dataSync && (
             <Typography variant="body1" color="primary">
               tab {tabIndex}
             </Typography>
