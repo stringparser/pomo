@@ -1,8 +1,8 @@
-import { Box, IconButton, Typography } from '@material-ui/core';
+import { Box, Divider, IconButton, Typography } from '@material-ui/core';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { TimerItem } from '@/models/Time';
 
@@ -26,7 +26,7 @@ const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }
 
   return (
     <Box flexDirection="column" justifyContent="center">
-      {data.map((el) => {
+      {data.map((el, index) => {
         const { id, start, ended, title } = el;
 
         const handleStop = () => onStop(el);
@@ -34,43 +34,46 @@ const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }
         const handleRemove = () => onRemove(el);
 
         return (
-          <Box key={id} display="flex" flexDirection="row" alignItems="center">
-            <IconButton onClick={handleRemove}>
-              <DeleteOutlineIcon />
-            </IconButton>
+          <Fragment key={id}>
+            {index > 0 ? <Divider /> : null}
+            <Box display="flex" flexDirection="row" alignItems="center">
+              <IconButton onClick={handleRemove}>
+                <DeleteOutlineIcon />
+              </IconButton>
 
-            <IconButton onClick={ended ? handleStart : handleStop}>
-              {ended ? <PlayArrowIcon htmlColor="green" /> : <StopIcon htmlColor="red" />}
-            </IconButton>
+              <IconButton onClick={ended ? handleStart : handleStop}>
+                {ended ? <PlayArrowIcon htmlColor="green" /> : <StopIcon htmlColor="red" />}
+              </IconButton>
 
-            {(start || ended) && (
-              <>
-                {start && (
-                  <Typography variant="body1" color="primary">
-                    {new Date(start).toLocaleTimeString('es').slice(0, 5)}
-                  </Typography>
-                )}
-                {ended && (
-                  <Typography variant="body1" color="primary">
-                    {' - '}
-                  </Typography>
-                )}
-                {ended && (
-                  <Typography variant="body1" color="primary">
-                    {new Date(ended).toLocaleTimeString('es').slice(0, 5)}
-                  </Typography>
-                )}
-              </>
-            )}
+              {(start || ended) && (
+                <>
+                  {start && (
+                    <Typography variant="body1" color="primary">
+                      {new Date(start).toLocaleTimeString('es').slice(0, 5)}
+                    </Typography>
+                  )}
+                  {ended && (
+                    <Typography variant="body1" color="primary">
+                      {' - '}
+                    </Typography>
+                  )}
+                  {ended && (
+                    <Typography variant="body1" color="primary">
+                      {new Date(ended).toLocaleTimeString('es').slice(0, 5)}
+                    </Typography>
+                  )}
+                </>
+              )}
 
-            <Box width={10} />
+              <Box width={10} />
 
-            <Box maxWidth="33%">
-              <Typography variant="body1" color="primary">
-                {title}
-              </Typography>
+              <Box>
+                <Typography variant="body1" color="primary">
+                  {title}
+                </Typography>
+              </Box>
             </Box>
-          </Box>
+          </Fragment>
         );
       })}
     </Box>

@@ -28,7 +28,7 @@ const TimerTask: React.FC<TimerTaskButtonProps> = ({ label, onChange = noop }) =
 
     setOpen(false);
 
-    const value = pomo.startTask({ ...task, title });
+    const value = pomo.startTask(task?.title === title ? { ...task, title } : { title });
     setTask(value);
 
     onChange();

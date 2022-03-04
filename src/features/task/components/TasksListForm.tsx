@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box, Paper } from '@material-ui/core';
 import React from 'react';
 
 import AddTimeForm from '@/features/task/components/AddTimeForm';
@@ -18,7 +18,9 @@ const TasksListForm: React.FC<TasksListFormProps> = ({ items, onStart, onStop, o
     <>
       <AddTimeForm onChange={onChange} />
       <Box height={20} />
-      <TasksList data={items} onStart={onStart} onStop={onStop} onRemove={onRemove} />
+      <Paper square>
+        <TasksList data={items} onStart={onStart} onStop={onStop} onRemove={onRemove} />
+      </Paper>
     </>
   );
 };
