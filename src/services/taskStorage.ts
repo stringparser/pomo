@@ -22,16 +22,16 @@ export const setTask = <T extends TimerItem = TimerItem>(value: T) => {
   return undefined;
 };
 
-export const startTask = <T extends Partial<TimerItem> = Partial<TimerItem>>({ id, end, ...data }: T) => {
+export const startTask = <T extends Partial<TimerItem> = Partial<TimerItem>>({ id, ...data }: T) => {
   const last = getAllTasks()[0];
-  const isSameTask = last && last.description === data.description;
-  const canExtendLast = isSameTask && last && last.end && Date.now() - last.end < ONE_MINUTE_MS;
+  const isSameTask = last && last.id === id;
+  const canExtendLast = last && last.ended ? Date.now() - last.ended < ONE_MINUTE_MS : last != null;
 
-  if (!isSameTask && last && !last.end) {
+  if (!isSameTask && last && !last.ended) {
     stopTask(last);
   }
 
-  const task = canExtendLast ? { ...last, ...data, end: undefined } : { ...data, id: getTaskId(), start: Date.now() };
+  const task = canExtendLast ? { ...last, ...data, ended: undefined } : { ...data, id: getTaskId(), start: Date.now() };
 
   setTask(task);
 
@@ -39,7 +39,7 @@ export const startTask = <T extends Partial<TimerItem> = Partial<TimerItem>>({ i
 };
 
 export const stopTask = <T extends TimerItem = TimerItem>(data: T) => {
-  const task = { start: Date.now() - ONE_MINUTE_MS, ...data, end: Date.now() };
+  const task: TimerItem = { ...data, ended: Date.now() };
   setTask(task);
   return task;
 };
@@ -77,7 +77,7 @@ export async function createCSVExport() {
   const data = getAllTasks();
 
   const csv = await json2csvAsync(data, {
-    keys: ['id', 'start', 'end', 'description'],
+    keys: ['id', 'start', 'ended', 'description'],
   });
 
   return new Blob([csv], { type: 'text/plain;charset=utf-8' });

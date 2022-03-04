@@ -1,7 +1,8 @@
 export type TimerItem = {
   id: string;
 } & Partial<{
-  end: number;
+  title: string;
+  content: string;
   start: number;
-  description: string;
+  ended: number;
 }>;

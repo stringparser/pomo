@@ -24,7 +24,7 @@ const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }
   return (
     <Box flexDirection="column" justifyContent="center">
       {data.map((el) => {
-        const { id, start, end, description } = el;
+        const { id, start, ended, title } = el;
 
         const handleStop = () => onStop(el);
         const handleStart = () => onStart(el);
@@ -36,12 +36,12 @@ const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }
               <Typography color="primary">X</Typography>
             </Box>
 
-            {!end && (
+            {!ended && (
               <Box style={{ cursor: 'pointer' }} onClick={handleStop}>
                 <Typography color="error">&#9632;</Typography>
               </Box>
             )}
-            {end && (
+            {ended && (
               <Box style={{ cursor: 'pointer' }} onClick={handleStart}>
                 <Typography color="secondary">&#9658;</Typography>
               </Box>
@@ -49,21 +49,21 @@ const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }
 
             <Box width={10} />
 
-            {(start || end) && (
+            {(start || ended) && (
               <>
                 {start && (
                   <Typography variant="body1" color="primary">
                     {new Date(start).toLocaleTimeString('es').slice(0, 5)}
                   </Typography>
                 )}
-                {end && (
+                {ended && (
                   <Typography variant="body1" color="primary">
                     {' - '}
                   </Typography>
                 )}
-                {end && (
+                {ended && (
                   <Typography variant="body1" color="primary">
-                    {new Date(end).toLocaleTimeString('es').slice(0, 5)}
+                    {new Date(ended).toLocaleTimeString('es').slice(0, 5)}
                   </Typography>
                 )}
               </>
@@ -73,7 +73,7 @@ const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }
 
             <Box maxWidth="33%">
               <Typography variant="body1" color="primary">
-                {description}
+                {title}
               </Typography>
             </Box>
           </Box>
