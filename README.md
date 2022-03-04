@@ -1,7 +1,7 @@
 > WIP
 # pomo
 
-Time tracking with 🍅 
+Time tracking 
 
 ## Credits
 
