@@ -1,3 +1,5 @@
+import { json2csvAsync } from 'json-2-csv';
+
 import { TimerItem } from '@/models/Time';
 import { storage } from '@/services/storage';
 
@@ -63,3 +65,13 @@ export const getAllTasks = (): TimerItem[] => {
       return a.start && b.start ? b.start - a.start : 0;
     });
 };
+
+export async function createCSVExport() {
+  const data = getAllTasks();
+
+  const csv = await json2csvAsync(data, {
+    keys: ['start', 'end', 'description'],
+  });
+
+  return new Blob([csv], { type: 'text/plain;charset=utf-8' });
+}
