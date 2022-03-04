@@ -6,3 +6,5 @@ export type TimerItem = {
   start: number;
   ended: number;
 }>;
+
+export type TimerItemKey = keyof TimerItem;
