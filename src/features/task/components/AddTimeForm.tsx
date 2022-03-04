@@ -12,12 +12,15 @@ export type TimerTaskButtonProps = {
 const TimerTask: React.FC<TimerTaskButtonProps> = ({ label, onChange = noop }) => {
   const pomo = usePomoTask();
 
-  const [task, setTask] = useState(label ? pomo.getTask(label) : undefined);
   const [isOpen, setOpen] = useState(false);
   const [title, setTaskTitle] = useState(label);
 
   const handleOpen = useCallback(() => {
     setOpen(true);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
   }, []);
 
   const handleStartTask = useCallback(() => {
@@ -26,13 +29,11 @@ const TimerTask: React.FC<TimerTaskButtonProps> = ({ label, onChange = noop }) =
       return;
     }
 
-    setOpen(false);
+    pomo.startTask({ title });
 
-    const value = pomo.startTask(task?.title === title ? { ...task, title } : { title });
-    setTask(value);
-
+    handleClose();
     onChange();
-  }, [task, title, onChange]);
+  }, [title, onChange]);
 
   const handleTaskTitleChange = useCallback((ev: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { value } = ev.currentTarget;
@@ -58,6 +59,7 @@ const TimerTask: React.FC<TimerTaskButtonProps> = ({ label, onChange = noop }) =
             añadir
           </Button>
         }
+        onBlur={handleClose}
         onChange={handleTaskTitleChange}
       />
     </FormControl>

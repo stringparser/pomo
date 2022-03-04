@@ -15,13 +15,7 @@ export type TimerTaskProps = {
 
 const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }) => {
   if (data == null || data.length === 0) {
-    return (
-      <Box display="flex" alignItems="center" flexDirection="row">
-        <Typography variant="body1" color="primary">
-          No hay tareas aún.
-        </Typography>
-      </Box>
-    );
+    return null;
   }
 
   return (
