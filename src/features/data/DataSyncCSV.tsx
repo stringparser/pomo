@@ -1,12 +1,13 @@
 import { Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import React, { useCallback } from 'react';
+import { csv2jsonAsync } from 'json-2-csv';
+import React, { createRef, useCallback } from 'react';
 
 import { usePomoTask } from '@/hooks/usePomoTask';
-import { createCSVExport } from '@/services/taskStorage';
 
 const DataSyncCSV = () => {
-  const { getAllTasks } = usePomoTask();
+  const fileInputRef = createRef<HTMLInputElement>();
+  const { setTask, getAllTasks, createCSVExport } = usePomoTask();
 
   const handleExport = useCallback(async () => {
     const blob = await createCSVExport();
@@ -22,21 +23,35 @@ const DataSyncCSV = () => {
     document.body.removeChild(link);
   }, [getAllTasks]);
 
-  const handleImport = useCallback(() => {
-    console.log('do import here');
+  const handleImportOpen = useCallback(() => {
+    fileInputRef.current?.click();
   }, [getAllTasks]);
 
+  const handleCSVImport = useCallback(async () => {
+    const ref = fileInputRef.current?.files;
+    const [file] = ref ? Array.from(ref) : [];
+    const contents = await file?.text();
+    const tasksData = await csv2jsonAsync(contents);
+
+    if (tasksData?.length > 0) {
+      tasksData.filter((el) => el.id).forEach((el) => setTask(el));
+    }
+  }, []);
+
   return (
-    <Box display="flex" alignItems="center">
+    <Box width="50%" margin="0 auto" display="flex" flexDirection="column">
+      <Box height={10} />
       <Button variant="outlined" onClick={handleExport}>
         exportar a csv
       </Button>
 
-      <Box width={10} />
+      <Box height={10} />
 
-      <Button variant="outlined" onClick={handleImport}>
+      <Button variant="outlined" onClick={handleImportOpen}>
         importar desde csv
       </Button>
+
+      <input ref={fileInputRef} type="file" accept="text/csv" style={{ display: 'none' }} onChange={handleCSVImport} />
     </Box>
   );
 };

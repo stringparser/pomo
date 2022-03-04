@@ -70,7 +70,7 @@ export async function createCSVExport() {
   const data = getAllTasks();
 
   const csv = await json2csvAsync(data, {
-    keys: ['start', 'end', 'description'],
+    keys: ['id', 'start', 'end', 'description'],
   });
 
   return new Blob([csv], { type: 'text/plain;charset=utf-8' });
