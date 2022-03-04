@@ -14,30 +14,30 @@ const TimerTask: React.FC<TimerTaskButtonProps> = ({ label, onChange = noop }) =
 
   const [task, setTask] = useState(label ? pomo.getTask(label) : undefined);
   const [isOpen, setOpen] = useState(false);
-  const [description, setTaskDescription] = useState(label);
+  const [title, setTaskTitle] = useState(label);
 
   const handleOpen = useCallback(() => {
     setOpen(true);
   }, []);
 
   const handleStartTask = useCallback(() => {
-    if (description == null) {
+    if (title == null) {
       alert('tarea no definida aún');
       return;
     }
 
     setOpen(false);
 
-    const value = pomo.startTask({ ...task, description });
+    const value = pomo.startTask({ ...task, title });
     setTask(value);
 
     onChange();
-  }, [task, description, onChange]);
+  }, [task, title, onChange]);
 
-  const handleTaskDescriptionChange = useCallback((ev: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+  const handleTaskTitleChange = useCallback((ev: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { value } = ev.currentTarget;
 
-    setTaskDescription(value);
+    setTaskTitle(value);
   }, []);
 
   if (!isOpen) {
@@ -51,14 +51,14 @@ const TimerTask: React.FC<TimerTaskButtonProps> = ({ label, onChange = noop }) =
   return (
     <FormControl size="medium">
       <OutlinedInput
-        value={description}
+        value={title}
         placeholder="descripción"
         endAdornment={
           <Button variant="outlined" onClick={handleStartTask}>
             añadir
           </Button>
         }
-        onChange={handleTaskDescriptionChange}
+        onChange={handleTaskTitleChange}
       />
     </FormControl>
   );

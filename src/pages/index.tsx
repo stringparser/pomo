@@ -60,8 +60,8 @@ const Index: React.FC = () => {
     handleUpdateTasks();
   }, []);
 
-  const handleSelectTopic = useCallback(({ description }: TimerItem) => {
-    handleStart({ description });
+  const handleSelectTopic = useCallback((el: TimerItem) => {
+    handleStart(el);
     setTabIndex(0);
   }, []);
 

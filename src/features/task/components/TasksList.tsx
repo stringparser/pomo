@@ -1,4 +1,7 @@
-import { Box, Typography } from '@material-ui/core';
+import { Box, IconButton, Typography } from '@material-ui/core';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import StopIcon from '@material-ui/icons/Stop';
 import React from 'react';
 
 import { TimerItem } from '@/models/Time';
@@ -24,7 +27,7 @@ const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }
   return (
     <Box flexDirection="column" justifyContent="center">
       {data.map((el) => {
-        const { id, start, end, description } = el;
+        const { id, start, ended, title } = el;
 
         const handleStop = () => onStop(el);
         const handleStart = () => onStart(el);
@@ -32,38 +35,29 @@ const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }
 
         return (
           <Box key={id} display="flex" flexDirection="row" alignItems="center">
-            <Box style={{ cursor: 'pointer' }} marginRight={2} onClick={handleRemove}>
-              <Typography color="primary">X</Typography>
-            </Box>
+            <IconButton onClick={handleRemove}>
+              <DeleteOutlineIcon />
+            </IconButton>
 
-            {!end && (
-              <Box style={{ cursor: 'pointer' }} onClick={handleStop}>
-                <Typography color="error">&#9632;</Typography>
-              </Box>
-            )}
-            {end && (
-              <Box style={{ cursor: 'pointer' }} onClick={handleStart}>
-                <Typography color="secondary">&#9658;</Typography>
-              </Box>
-            )}
+            <IconButton onClick={ended ? handleStart : handleStop}>
+              {ended ? <PlayArrowIcon htmlColor="green" /> : <StopIcon htmlColor="red" />}
+            </IconButton>
 
-            <Box width={10} />
-
-            {(start || end) && (
+            {(start || ended) && (
               <>
                 {start && (
                   <Typography variant="body1" color="primary">
                     {new Date(start).toLocaleTimeString('es').slice(0, 5)}
                   </Typography>
                 )}
-                {end && (
+                {ended && (
                   <Typography variant="body1" color="primary">
                     {' - '}
                   </Typography>
                 )}
-                {end && (
+                {ended && (
                   <Typography variant="body1" color="primary">
-                    {new Date(end).toLocaleTimeString('es').slice(0, 5)}
+                    {new Date(ended).toLocaleTimeString('es').slice(0, 5)}
                   </Typography>
                 )}
               </>
@@ -73,7 +67,7 @@ const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }
 
             <Box maxWidth="33%">
               <Typography variant="body1" color="primary">
-                {description}
+                {title}
               </Typography>
             </Box>
           </Box>
