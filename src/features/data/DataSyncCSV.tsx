@@ -39,7 +39,7 @@ const DataSyncCSV = () => {
   }, []);
 
   return (
-    <Box width="50%" margin="0 auto" display="flex" flexDirection="column">
+    <Box width="50%" display="flex" flexDirection="column">
       <Box height={10} />
       <Button variant="outlined" onClick={handleExport}>
         exportar a csv
