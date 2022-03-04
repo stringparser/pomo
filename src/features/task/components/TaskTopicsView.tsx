@@ -42,12 +42,13 @@ const TasksTopicsView: React.FC<TasksTopicsViewProps> = ({ items, onSelect }) =>
         return (
           <Chip
             key={key}
-            label={label}
+            size="medium"
             color="primary"
+            label={label}
             clickable
             className={classes.chip}
             onClick={handleSelect}
-          ></Chip>
+          />
         );
       })}
     </Box>
