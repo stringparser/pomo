@@ -1,19 +1,21 @@
 import { Box, Divider, IconButton, Typography } from '@material-ui/core';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
 import React, { Fragment } from 'react';
 
 import { TimerItem } from '@/models/Time';
 
-export type TimerTaskProps = {
+export type TasksListProps = {
   data: TimerItem[];
+  onEdit: (el: TimerItem) => void;
   onStop: (el: TimerItem) => void;
   onStart: (el: TimerItem) => void;
   onRemove: (el: TimerItem) => void;
 };
 
-const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }) => {
+const TasksList: React.FC<TasksListProps> = ({ data, onEdit, onStart, onStop, onRemove }) => {
   if (data == null || data.length === 0) {
     return null;
   }
@@ -24,6 +26,7 @@ const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }
         const { id, start, ended, title } = el;
 
         const handleStop = () => onStop(el);
+        const handleEdit = () => onEdit(el);
         const handleStart = () => onStart(el);
         const handleRemove = () => onRemove(el);
 
@@ -33,6 +36,10 @@ const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }
             <Box display="flex" flexDirection="row" alignItems="center">
               <IconButton onClick={handleRemove}>
                 <DeleteOutlineIcon />
+              </IconButton>
+
+              <IconButton onClick={handleEdit}>
+                <EditOutlinedIcon />
               </IconButton>
 
               <IconButton onClick={ended ? handleStart : handleStop}>

@@ -7,6 +7,7 @@ import React, { useCallback, useState } from 'react';
 
 import { Layout } from '@/components/Layout/Layout';
 import DataSync from '@/features/data/DataSync';
+import TaskEditDialog from '@/features/task/components/EditDialog';
 import TasksListForm from '@/features/task/components/TasksListForm';
 import TasksTopicsView from '@/features/task/components/TaskTopicsView';
 import { usePomoTask } from '@/hooks/usePomoTask';
@@ -39,6 +40,7 @@ const Index: React.FC = () => {
 
   const pomo = usePomoTask();
   const [tasks, setTasks] = useState(pomo.getAllTasks());
+  const [taskEdit, setTaskEdit] = useState<TimerItem>();
   const [tabIndex, setTabIndex] = useState<number>(0);
 
   const handleUpdateTasks = useCallback(() => {
@@ -47,6 +49,10 @@ const Index: React.FC = () => {
 
   const handleTabIndexChange = useCallback((_ev: React.ChangeEvent<any>, value: number) => {
     setTabIndex(value);
+  }, []);
+
+  const handleEdit = useCallback((el: TimerItem) => {
+    setTaskEdit(el);
   }, []);
 
   const handleStop = useCallback((el: TimerItem) => {
@@ -70,6 +76,10 @@ const Index: React.FC = () => {
     handleUpdateTasks();
   }, []);
 
+  const handleTaskEditClose = useCallback(() => {
+    setTaskEdit(undefined);
+  }, []);
+
   return (
     <Layout title="Diario">
       <div className={classes.root}>
@@ -91,8 +101,9 @@ const Index: React.FC = () => {
           <Box height={20} />
           {tabIndex === TabViewIndex.list && (
             <TasksListForm
-              items={tasks}
+              data={tasks}
               onStop={handleStop}
+              onEdit={handleEdit}
               onStart={handleStart}
               onRemove={handleRemove}
               onChange={handleUpdateTasks}
@@ -110,6 +121,7 @@ const Index: React.FC = () => {
           )}
         </div>
       </div>
+      {taskEdit && <TaskEditDialog open={taskEdit != null} data={taskEdit} onClose={handleTaskEditClose} />}
     </Layout>
   );
 };
