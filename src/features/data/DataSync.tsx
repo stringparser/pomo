@@ -43,21 +43,21 @@ const DataSync = () => {
   }, []);
 
   return (
-    <Box width="50%" display="flex" flexDirection="column">
+    <Box display="flex" flexWrap="wrap" flexDirection="row">
       <Box height={10} />
       <Button variant="outlined" onClick={handleExport}>
-        exportar a csv
+        exportar csv
       </Button>
 
-      <Box height={10} />
+      <Box width={10} />
 
       <Button variant="outlined" onClick={handleImportOpen}>
-        importar desde csv
+        importar csv
       </Button>
 
       <input ref={fileInputRef} type="file" accept="text/csv" style={{ display: 'none' }} onChange={handleCSVImport} />
 
-      <Box height={10} />
+      <Box width={10} />
 
       <Button variant="outlined" onClick={handleRemoveAll}>
         eliminar todo
