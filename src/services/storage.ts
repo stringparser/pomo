@@ -13,9 +13,21 @@ export const storage = {
       const value = window.localStorage.getItem(key);
       return value != null ? (JSON.parse(value) as T) : undefined;
     } catch (error) {
-      console.warn('parsing error for', key, error);
+      console.warn('could not get', key, error);
     }
 
     return undefined;
+  },
+  remove<T extends Record<string, unknown>>(key?: string): T | undefined {
+    if (key == null || !process.browser) {
+      return undefined;
+    }
+
+    try {
+      const value = window.localStorage.removeItem(key);
+      return value != null ? (JSON.parse(value) as T) : undefined;
+    } catch (error) {
+      console.warn('could not remove', key, error);
+    }
   },
 };

@@ -6,7 +6,7 @@ import ViewModuleIcon from '@material-ui/icons/ViewModule';
 import React, { useCallback, useState } from 'react';
 
 import { Layout } from '@/components/Layout/Layout';
-import DataSyncCSV from '@/features/data/DataSyncCSV';
+import DataSync from '@/features/data/DataSync';
 import TasksListForm from '@/features/task/components/TasksListForm';
 import TasksTopicsView from '@/features/task/components/TaskTopicsView';
 import { usePomoTask } from '@/hooks/usePomoTask';
@@ -65,6 +65,11 @@ const Index: React.FC = () => {
     setTabIndex(0);
   }, []);
 
+  const handleRemove = useCallback((el: TimerItem) => {
+    pomo.removeTask(el);
+    handleUpdateTasks();
+  }, []);
+
   return (
     <Layout title="Diario">
       <div className={classes.root}>
@@ -85,12 +90,18 @@ const Index: React.FC = () => {
           </Paper>
           <Box height={20} />
           {tabIndex === TabViewIndex.list && (
-            <TasksListForm items={tasks} onStop={handleStop} onStart={handleStart} onChange={handleUpdateTasks} />
+            <TasksListForm
+              items={tasks}
+              onStop={handleStop}
+              onStart={handleStart}
+              onRemove={handleRemove}
+              onChange={handleUpdateTasks}
+            />
           )}
 
           {tabIndex === TabViewIndex.topics && <TasksTopicsView items={tasks} onSelect={handleSelectTopic} />}
 
-          {tabIndex === TabViewIndex.dataSync && <DataSyncCSV />}
+          {tabIndex === TabViewIndex.dataSync && <DataSync />}
 
           {tabIndex > TabViewIndex.dataSync && (
             <Typography variant="body1" color="primary">

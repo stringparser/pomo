@@ -5,9 +5,9 @@ import React, { createRef, useCallback } from 'react';
 
 import { usePomoTask } from '@/hooks/usePomoTask';
 
-const DataSyncCSV = () => {
+const DataSync = () => {
   const fileInputRef = createRef<HTMLInputElement>();
-  const { setTask, getAllTasks, createCSVExport } = usePomoTask();
+  const { setTask, removeTask, getAllTasks, createCSVExport } = usePomoTask();
 
   const handleExport = useCallback(async () => {
     const blob = await createCSVExport();
@@ -38,6 +38,10 @@ const DataSyncCSV = () => {
     }
   }, []);
 
+  const handleRemoveAll = useCallback(() => {
+    getAllTasks().forEach((el) => removeTask(el));
+  }, []);
+
   return (
     <Box width="50%" display="flex" flexDirection="column">
       <Box height={10} />
@@ -52,8 +56,14 @@ const DataSyncCSV = () => {
       </Button>
 
       <input ref={fileInputRef} type="file" accept="text/csv" style={{ display: 'none' }} onChange={handleCSVImport} />
+
+      <Box height={10} />
+
+      <Button variant="outlined" onClick={handleRemoveAll}>
+        eliminar todo
+      </Button>
     </Box>
   );
 };
 
-export default DataSyncCSV;
+export default DataSync;

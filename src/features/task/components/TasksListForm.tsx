@@ -9,15 +9,16 @@ export type TasksListFormProps = {
   items: TimerItem[];
   onStop: (el: TimerItem) => void;
   onStart: (el: TimerItem) => void;
+  onRemove: (el: TimerItem) => void;
   onChange: () => void;
 };
 
-const TasksListForm: React.FC<TasksListFormProps> = ({ items, onStart, onStop, onChange }) => {
+const TasksListForm: React.FC<TasksListFormProps> = ({ items, onStart, onStop, onChange, onRemove }) => {
   return (
     <>
       <AddTimeForm onChange={onChange} />
       <Box height={20} />
-      <TasksList data={items} onStart={onStart} onStop={onStop} />
+      <TasksList data={items} onStart={onStart} onStop={onStop} onRemove={onRemove} />
     </>
   );
 };
