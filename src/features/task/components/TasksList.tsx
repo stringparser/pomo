@@ -1,4 +1,7 @@
-import { Box, Typography } from '@material-ui/core';
+import { Box, IconButton, Typography } from '@material-ui/core';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import StopIcon from '@material-ui/icons/Stop';
 import React from 'react';
 
 import { TimerItem } from '@/models/Time';
@@ -32,22 +35,13 @@ const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }
 
         return (
           <Box key={id} display="flex" flexDirection="row" alignItems="center">
-            <Box style={{ cursor: 'pointer' }} marginRight={2} onClick={handleRemove}>
-              <Typography color="primary">X</Typography>
-            </Box>
+            <IconButton onClick={handleRemove}>
+              <DeleteOutlineIcon />
+            </IconButton>
 
-            {!ended && (
-              <Box style={{ cursor: 'pointer' }} onClick={handleStop}>
-                <Typography color="error">&#9632;</Typography>
-              </Box>
-            )}
-            {ended && (
-              <Box style={{ cursor: 'pointer' }} onClick={handleStart}>
-                <Typography color="secondary">&#9658;</Typography>
-              </Box>
-            )}
-
-            <Box width={10} />
+            <IconButton onClick={ended ? handleStart : handleStop}>
+              {ended ? <PlayArrowIcon htmlColor="green" /> : <StopIcon htmlColor="red" />}
+            </IconButton>
 
             {(start || ended) && (
               <>
