@@ -21,7 +21,7 @@ const TasksTopicsView: React.FC<TasksTopicsViewProps> = ({ items, onSelect }) =>
   const classes = useStyles();
 
   const topics = items.reduce((acc: Record<string, TimerItem[]>, el) => {
-    const topic = el.description;
+    const topic = el.title;
 
     if (!topic) {
       return acc;
