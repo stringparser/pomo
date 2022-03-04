@@ -7,9 +7,10 @@ export type TimerTaskProps = {
   data: TimerItem[];
   onStop: (el: TimerItem) => void;
   onStart: (el: TimerItem) => void;
+  onRemove: (el: TimerItem) => void;
 };
 
-const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop }) => {
+const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop, onRemove }) => {
   if (data == null || data.length === 0) {
     return (
       <Box display="flex" alignItems="center" flexDirection="row">
@@ -27,17 +28,22 @@ const TasksList: React.FC<TimerTaskProps> = ({ data, onStart, onStop }) => {
 
         const handleStop = () => onStop(el);
         const handleStart = () => onStart(el);
+        const handleRemove = () => onRemove(el);
 
         return (
           <Box key={id} display="flex" flexDirection="row" alignItems="center">
+            <Box style={{ cursor: 'pointer' }} marginRight={2} onClick={handleRemove}>
+              <Typography color="primary">X</Typography>
+            </Box>
+
             {!end && (
-              <Box style={{ cursor: 'pointer', color: 'red' }} onClick={handleStop}>
-                &#9632;
+              <Box style={{ cursor: 'pointer' }} onClick={handleStop}>
+                <Typography color="error">&#9632;</Typography>
               </Box>
             )}
             {end && (
-              <Box style={{ cursor: 'pointer', color: 'green' }} onClick={handleStart}>
-                &#9658;
+              <Box style={{ cursor: 'pointer' }} onClick={handleStart}>
+                <Typography color="secondary">&#9658;</Typography>
               </Box>
             )}
 

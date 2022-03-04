@@ -44,6 +44,13 @@ export const stopTask = <T extends TimerItem = TimerItem>(data: T) => {
   return task;
 };
 
+export const removeTask = <T extends TimerItem = TimerItem>(data: T) => {
+  if (data.id) {
+    storage.remove(data.id);
+  }
+  return undefined;
+};
+
 export const getTask = <T extends TimerItem = TimerItem>(id: string): T | undefined => {
   const task = storage.get<T>(id);
   return task;

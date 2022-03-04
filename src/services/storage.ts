@@ -13,9 +13,21 @@ export const storage = {
       const value = window.localStorage.getItem(key);
       return value != null ? (JSON.parse(value) as T) : undefined;
     } catch (error) {
-      console.warn('parsing error for', key, error);
+      console.warn('could not get', key, error);
     }
 
     return undefined;
+  },
+  remove(key?: string): void {
+    if (key == null || !process.browser) {
+      return undefined;
+    }
+
+    try {
+      window.localStorage.removeItem(key);
+      return undefined;
+    } catch (error) {
+      console.warn('could not remove', key, error);
+    }
   },
 };
